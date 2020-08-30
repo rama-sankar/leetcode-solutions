@@ -1,0 +1,50 @@
+class Solution {
+public:
+    vector<vector<char>> updateBoard(vector<vector<char>>& board, vector<int>& click) {
+        
+        if(board[click[0]][click[1]] == 'M') {
+            board[click[0]][click[1]] = 'X';
+            return   board;
+        }
+        
+        dfs(board,click[0],click[1]);
+        return board;
+            
+    }
+    
+    void dfs(vector<vector<char>> &board,int r,int c){
+        
+        
+        
+        int num = 0;
+        
+        vector<pair<int,int>> v{{0,1},{1,0},{0,-1},{-1,0},{1,-1},{-1,1},{1,1},{-1,-1}};
+        
+        for(auto x:v){
+          int  nr = r+x.first;
+            int nc = c+x.second;
+            
+if(nr>=0 and nr<board.size() and nc>=0 and nc<board[0].size() and board[nr][nc]=='M'){
+           
+                num++;
+            
+        }}
+        
+        if(num>0){
+          board[r][c] = num+'0';  
+        }
+        else{
+            
+             board[r][c] = 'B';
+            
+            for(auto x:v){
+           int  nr = r+x.first;
+           int nc = c+x.second;
+ if(nr>=0 and nr<board.size() and nc>=0 and nc<board[0].size() and board[nr][nc]=='E'){
+              dfs(board,nr,nc);
+            }
+        } 
+        }
+    }
+    
+};

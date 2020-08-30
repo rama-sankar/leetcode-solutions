@@ -1,0 +1,87 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+struct  node
+    {
+    unordered_map<ListNode* , ListNode* > _pre;
+    ListNode* tail;
+     ListNode* prev=NULL;
+    node(ListNode* head)
+        {
+        while(head!=NULL)
+        {
+        tail=head;
+         _pre[head]=prev;
+        prev=head;
+        head = head->next;
+        }
+        }
+        ListNode* getprev(ListNode* cur)
+        {
+           return _pre[cur]; 
+            
+        }
+        ListNode* gettail()
+        {
+            return tail;
+            
+        }
+        
+    };
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) 
+    {
+     node A(l1),B(l2);
+        ListNode* f= A.gettail();
+        ListNode* s = B.gettail();
+        ListNode* res =NULL;
+        int carry=0;
+        while(f!=NULL and s!=NULL)
+        {
+            int sum=f->val+s->val+carry;
+            if(res == NULL)
+                res = new ListNode(sum%10);
+            else
+            {
+            ListNode* ptr=new ListNode(sum%10);
+                ptr->next = res;
+                       res =ptr;
+            }
+            f=A.getprev(f);
+            s=B.getprev(s);
+           carry = sum /10;
+        }
+        
+        while(f!=NULL)
+        {
+          int sum = f->val+carry;
+              ListNode* ptr=new ListNode(sum%10);
+                ptr->next = res;
+                      res =ptr;
+            carry = sum/10;
+            f=A.getprev(f);
+        }
+        while(s!=NULL)
+        {
+          int sum = s->val+carry;
+              ListNode* ptr=new ListNode(sum%10);
+                ptr->next = res;
+                        res =ptr;
+            s=B.getprev(s);
+            carry=sum/10;
+        }
+        if(carry)
+        {
+         ListNode* ptr=new ListNode(1);
+                ptr->next = res;
+                res =ptr;   
+        }
+        return res;
+    }
+};

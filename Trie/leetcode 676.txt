@@ -1,0 +1,73 @@
+class TrieNode {
+    public:
+    
+    vector<TrieNode*> child;
+    bool isword;
+    
+    TrieNode(){
+        child.resize(26,NULL);
+        isword = false;
+    }
+  
+};
+
+
+
+
+class MagicDictionary {
+public:
+   
+    TrieNode* root;
+    
+    MagicDictionary() {
+    root = new TrieNode();
+    }
+    
+    void buildDict(vector<string> dictionary) {
+    
+        
+        for(auto s:dictionary){
+            TrieNode* temp = root;
+            for(int i = 0;i<s.size();i++){
+                int index = s[i]-'a';
+                if(temp->child[index] == NULL){
+                    temp->child[index] = new TrieNode();
+                }
+                temp = temp->child[index];
+            }
+            temp->isword = true;
+        }
+        
+       
+    }
+    
+    bool search2(string s,TrieNode* start){
+        TrieNode* temp = start;
+        for(int i=0;i<s.size();i++){
+            int index = s[i]-'a';
+            if(temp->child[index]==NULL) return false;
+            temp = temp->child[index];
+        }
+        
+        return temp->isword;
+    }
+    
+    bool search(string searchWord) {
+        
+        TrieNode* temp = root;
+        
+        for(int i=0;i<searchWord.size();i++){
+            for(char j='a';j<='z';j++){
+                 if(temp->child[j-'a']==NULL or j==searchWord[i]) continue;
+                 if(search2(searchWord.substr(i+1),temp->child[j-'a'])) return true;
+                }
+             if(temp->child[searchWord[i]-'a']==NULL) return false;
+             temp = temp->child[searchWord[i]-'a'];
+            }
+         return false;
+        }
+        
+       
+        
+    
+};

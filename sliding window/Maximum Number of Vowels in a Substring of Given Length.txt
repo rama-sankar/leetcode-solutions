@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int maxVowels(string str, int k) {
+       int n = str.size();
+        set<char> s;
+        s.insert('a'); s.insert('e'); s.insert('i'); s.insert('o'); s.insert('u');
+        int count=0;
+        for(int i =0;i<k;i++)
+        {
+          if(s.find(str[i])!=s.end()) count++;
+        }
+        int res = count;
+        for(int i=k;i<n;i++)
+        {
+          if(s.find(str[i])!=s.end()) count++;
+           if(s.find(str[i-k])!=s.end()) count--;
+            res = max(res,count);
+        }
+        return res;
+    }
+};

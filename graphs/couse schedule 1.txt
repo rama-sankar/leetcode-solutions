@@ -1,0 +1,48 @@
+class Solution {
+public:
+    bool canFinish(int k, vector<vector<int>>& v) {
+      unordered_map<int,vector<int>> m;
+       unordered_map<int,int> count; 
+         unordered_map<int,int> visited; 
+        int len = 0;
+        for(int i=0;i<k;i++) {count[i] = 0;visited[i] = false;}
+        for(int i=0;i<v.size();i++)
+        {
+            m[v[i][0]].push_back(v[i][1]);
+            count[v[i][1]]++;
+        }
+      
+       queue<int> q;
+        for(auto i  : count)
+        {
+          //  cout<<i.first<<" "<<i.second<<endl;
+            if(i.second == 0) {q.push(i.first);
+                              
+                                visited[i.first] = true;
+                              }
+        }
+        
+        while(!q.empty())
+        {
+            int cur = q.front ();q.pop();
+            if(m.find(cur)!=m.end())
+            for(auto j : m[cur])
+            {
+             count[j]--;   
+            }
+          //  visited[cur] = true;
+             for(auto i  : count)
+        {
+            if(i.second == 0 and visited[i.first] == false) {q.push(i.first);  visited[i.first] = true;}
+        }
+       
+           
+         }
+        for(auto i: count)
+        {
+          //   cout<<i.first<<" "<<i.second<<endl;
+            if(i.second != 0) return false;
+        }
+        return true;
+    }
+};

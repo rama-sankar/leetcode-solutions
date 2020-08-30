@@ -1,0 +1,45 @@
+class Solution {
+public:
+    int minInsertions(string s) {
+        
+        int count1 = 0;
+        int res=0;
+        
+        for(int i=0;i<s.size();){
+            if(s[i]=='('){
+               // cout<<100;
+                count1++;
+                i++;
+            }
+            else if (s.substr(i,2)=="))"){
+               // cout<<200;
+                if(count1==0){
+                    res+=1;
+                }else{
+                    count1--;
+                }
+                i+=2;
+                // cout<<res;
+            }
+            else{
+                cout<<300;
+                 res++;
+                if(count1>0){
+                    count1--;
+                }else res+=1;
+                
+                //cout<<res;
+                i++;
+            }}
+            
+            while(count1>0){
+                res+=2;
+                count1--;
+            }
+          return res;
+           
+        
+      
+        
+    }
+};

@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool wordBreak(string str, vector<string>& wordDict) {
+     
+        unordered_set<string> s; 
+        vector<bool> dp(str.size(),false );
+            
+        for(auto i: wordDict) s.insert(i);
+        for(int i=0;i<str.size();i++)
+        {
+            if(s.find(str.substr(0,i+1))!=s.end())dp[i] =true;
+            else
+            {
+              for(int k=0;k<=i;k++)
+              {
+               if(dp[k] and s.find(str.substr(k+1,i-k))!=s.end() ) dp[i]=true; 
+              }
+            }
+        }
+        return dp[str.size()-1];
+    }
+};

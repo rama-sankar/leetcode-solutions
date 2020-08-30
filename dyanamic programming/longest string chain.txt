@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<vector<int>> adjlist;
+    vector<int> dp;
+    
+    int longest(int i){
+        if(dp[i]!=0) return dp[i];
+        dp[i] = 1;
+        for(auto j : adjlist[i]){
+            dp[i] = max(dp[i],longest(j)+1);
+        }
+        return dp[i];
+    }
+    
+    int longestStrChain(vector<string>& words) {
+        
+        unordered_map<string,int> m;
+        int n=words.size();
+        adjlist.resize(n);
+        dp.resize(n,0);
+        
+        for(int i=0;i<n;i++){
+            m[words[i]] = i;
+        }
+        
+        for(int i=0;i<n;i++){
+            string s=words[i];
+            for(int j=0;j<s.size();j++){
+                string s1 = s.substr(0,j) + s.substr(j+1);
+                auto itr = m.find(s1);
+                if(itr!=m.end()){
+                    adjlist[itr->second].push_back(i);
+                }
+            }
+        }
+        
+        int answer = 0;
+        
+        for(int i=0;i<n;i++){
+            answer = max(answer,longest(i));
+        }
+        
+        return answer;
+        
+    }
+};

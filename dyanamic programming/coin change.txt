@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int fun(vector<int>& coins, int amount ,vector<int>& dp)
+    {
+      if(amount == 0) return 0;
+        int ans=INT_MAX;
+      if(dp[amount]>=0) return dp[amount];
+        int count = 0;
+      for(int i = 0; i<coins.size();i++)
+      {
+          if(amount - coins[i]>=0)
+          {ans= min(ans,fun(coins,amount-coins[i],dp)+1);}
+          else break;
+       }
+    dp[amount] = ans;
+        if(dp[amount]== INT_MAX)  dp[amount]-=1;
+    return dp[amount];
+    }
+    
+    
+    int coinChange(vector<int>& coins, int amount) {
+         vector<int> dp(amount+1,-1);
+        dp[0]=0;
+        sort(coins.begin(),coins.end());
+        int x=  fun(coins,amount,dp);
+        if (x==INT_MAX-1) return -1;
+       return x;
+    }
+};

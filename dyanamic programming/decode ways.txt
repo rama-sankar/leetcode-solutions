@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int numDecodings(string s) {
+        if(s.size()==0) return 1;
+        vector<int> dp(s.size()+1,0);
+         dp[0]=1;
+       int a=stoi(s.substr(0,1));
+         if(a>=1) dp[1]=1;
+        for(int i=2;i<=s.size();i++)
+        {
+          int x=stoi(s.substr(i-1,1));
+              if(x>=1) dp[i]=dp[i]+dp[i-1];
+            x=stoi(s.substr(i-2,2));
+                if(x>=10 and x<=26) dp[i]=dp[i]+dp[i-2];
+        
+        }
+        return dp[s.size()];
+    }
+};

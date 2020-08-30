@@ -1,0 +1,62 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+void dfs(TreeNode* root,TreeNode* parent, unordered_map<TreeNode*,TreeNode*>& par)
+     {
+        
+       par[root] = parent;
+        if(root->left != NULL) dfs(root->left,root,par);
+        if(root->right != NULL) dfs(root->right,root,par);
+     }
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        unordered_map<TreeNode*,TreeNode*> par;
+        
+         dfs(root,NULL,par);
+         queue<TreeNode*> q;
+        unordered_set<TreeNode*> seen;
+        seen.insert(target);
+        int level = 0;
+        q.push(target);
+       
+        while(!q.empty() and level < k)
+        {
+         int l = q.size();
+         while(l>0)
+         {
+          TreeNode* temp = q.front();
+           q.pop();
+           if(temp->left!= NULL and seen.find(temp->left)==seen.end())
+           {
+               q.push(temp->left); seen.insert(temp->left);
+           }
+              if(temp->right!= NULL and seen.find(temp->right)==seen.end())
+           {
+               q.push(temp->right); seen.insert(temp->right);
+           }
+              if(par[temp] != NULL and seen.find(par[temp])==seen.end())
+           {
+               q.push(par[temp]); seen.insert(par[temp]);
+           }
+            l--;
+         }
+            level++;
+        }
+        vector<int> res;
+        
+       while(!q.empty())
+       {
+          TreeNode* temp = q.front();
+         res.push_back(temp->val);
+           q.pop();
+       }
+        return res;   
+    }
+};

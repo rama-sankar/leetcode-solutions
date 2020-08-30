@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int fun(int n,vector<int>& dp)
+    {
+      if(n==0) return 1;
+      if(dp[n]>0) return dp[n];
+    
+        int x=fun(n-1,dp);
+        if(n-2 >=0)
+        x= x+fun(n-2,dp);
+            dp[n] = x;
+        return dp[n];
+        
+    }
+    
+    int climbStairs(int n) {
+        
+        
+        vector<int> dp(n+1,0);
+        int x=fun(n,dp);
+        return x;
+    }
+};
